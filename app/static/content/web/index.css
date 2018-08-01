@@ -1,0 +1,39 @@
+body {
+    background-color: #E3F2FD;
+}
+
+.goHere {
+    float: right;
+}
+
+.goHere a {
+    margin: 0 5px;
+}
+
+body {
+    background-color: #E3F2FD;
+}
+
+.goHere {
+    float: right;
+}
+.ended{
+    color: rgb(255,0,0);
+}
+
+.goHere a {
+    margin: 0 5px;
+}
+
+.topAdd {
+    position: fixed;
+    right: 3%;
+    bottom: 40%;
+}
+
+.addcon {
+    height: 56px;
+    width: 56px;
+    background-image: url("/static/images/addTest.jpg");
+    background-size: cover;
+}

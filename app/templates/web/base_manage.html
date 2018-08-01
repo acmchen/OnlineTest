@@ -1,0 +1,99 @@
+{% import "bootstrap/wtf.html" as wtf %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta  http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>OnlineTest{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/style.css') }}">
+    {% block style %}{% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/web/base.css') }}">
+
+</head>
+<body>
+    <header>
+        <div class="navbar navbar-default " role="navigation">
+            <nav class="navbar">
+                <div class="container-fluid">
+                    <div class="col-md-offset-1 col-md-10">
+                        <div class="navbar-header">
+                            <a class="navbar-brand" href="{{ url_for('web.index') }}">OnlineTest在线测试系统</a>
+                        </div>
+                        <div class="collapse navbar-collapse" id="example-navbar-collapse">
+                            <ul class="nav navbar-nav">
+                                <li {% block test %}{% endblock %}><a href="{{ url_for('web.exam_list') }}">考试列表</a></li>
+                                <li {% block myExam %}{% endblock %}><a href="{{ url_for('web.exam_history') }}">历史考试</a></li>
+                                {% if session.has_key('user_id') and current_user.user_level > 1 %}
+                                    <li><a href="{{ url_for('web.exam_manage') }}">考试管理</a></li>
+                                {% endif %}
+                            </ul>
+                            <ul class="nav navbar-nav navbar-right ">
+                                {% if session.has_key('user_id') %}
+                                    <li style="padding: 15px 0"><i class="glyphicon glyphicon-send"></i>~Welcome</li>
+                                    <li class="dropdown">
+                                        <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown">
+                                            <i class="glyphicon glyphicon-user"></i>{{ current_user.user_name }}
+                                            <b class="caret"></b>
+                                        </a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="{{ url_for('web.user_info') }}"><i class="glyphicon glyphicon-eye-open"></i>个人信息</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ url_for('web.logout') }}"><i class="glyphicon glyphicon-off"></i>注销</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                {% else %}
+                                    <li {% block register %}{% endblock %}>
+                                        <a href="{{ url_for('web.register') }}"><span class="glyphicon glyphicon-user"></span> 注册</a>
+                                    </li>
+                                    <li {% block login %}{% endblock %}>
+                                        <a href="{{ url_for('web.login') }}"><span class="glyphicon glyphicon-log-in"></span> 登录</a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </header>
+    <div class="">
+        <div class="col-md-1 column"></div>
+        <div class="col-md-8 column">
+            <div class="row">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-warning">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>{{ message }}</h4>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                {% block main %}{% endblock %}
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="container">
+                <div class="floatToolBar">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" onclick="window.history.go(-1)">后退</button>
+                        <button type="button" class="btn btn-primary" onclick="window.history.go(1)">前进</button>
+                        <button type="button" class="btn btn-primary" onclick="window.location.reload()">刷新</button>
+                    </div>
+                    {% block toolbar %}{% endblock %}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-1"></div>
+    </div>
+
+    <script src="{{ url_for('static', filename='scripts/jquery-1.10.2.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/jquery.validate.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/bootstrap.min.js') }}"></script>
+    {% block script %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,154 @@
+{% extends "web/base.html" %}
+{% import "web/_macros.html" as macros %}
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/web/index.css') }}">
+{% endblock %}
+
+{% block title %}考试列表{% endblock %}
+{% block test %}class="active"{% endblock %}
+
+{% block mainContent %}
+    {% if pagination %}
+        {{ macros.pagination_widget(pagination, '.exam_list') }}
+    {% endif %}
+
+    {% for exam in exam_list %}
+    <div class="panel-group" id="{{ exam.id }}">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion"
+                       href="#collapse1">
+                        {{ exam.name }}
+                    </a>
+                    {% if current_user.user_level > 1 %}
+                        <span class="goHere"><a href="{{ url_for('web.show_exam',id=exam.id) }}">查看考试</a></span>
+                    {% else %}
+                        {# ps. 关键词 '结束状态' 含义为 非正在进行状态 #}
+                        {# ps. 关键词 '完全结束' 含义为 考试完全结束不可再重复参加 #}
+                        {# 当前时间 > 该考试最后一场的结束时间 认定考试为'结束状态'(非正在进行状态) #}
+                        {% if nowtime > exam_count[exam.id]['end_time'] %}
+                            {# 处于次数有限的状态下 #}
+                            {% if exam.count != -1 %}
+                                {# 现已经参加的场数 >= 考试设定的上限次数,如果符合那么考试'完全结束'  #}
+                                {% if exam_count[exam.id]['count'] >= exam.count %}
+                                    <span class="goHere">
+                                        <span class="ended">考试已结束</span>
+                                        {% if exam.is_show_result == 1 %}
+                                            <span><a href="{{ url_for('web.show_exam',id=exam.id) }}">查看考试</a></span>
+                                        {% endif %}
+                                    </span>
+                                {# 现已经参加的场数 < 考试设定的上限次数,考试仅处于'结束状态',可以再参加考试直到'完全结束' #}
+                                {# exam_count[exam.id]['time'] 为 -1 时是特判情况,表示用户对于这场考试一次也没参加过#}
+                                {# 一次也没参加过也是一种结束状态 所以用-1 使得nowtime用于大于该时间 #}
+                                {% elif exam_count[exam.id]['count'] < exam.count and exam_count[exam.id]['end_time'] != -1 %}
+                                    <span class="goHere">
+                                        <span class="ended">当前考试已结束</span>
+                                        {% if exam.is_show_result == 1 %}
+                                            <a href="{{ url_for('web.show_exam',id=exam.id) }}">查看考试</a>
+                                        {% endif %}
+                                        <a href="{{ url_for('web.examing',id=exam.id,count=exam_count[exam.id]['count']) }}">进入考试</a>
+                                    </span>
+                                {# 现已经参加的场数 < 考试设定的上限次数 并且 exam_count[exam.id]['time'] = -1 说明用户为参加过任意一场该考试 #}
+                                {% elif exam_count[exam.id]['count'] < exam.count and exam_count[exam.id]['end_time'] == -1 %}
+                                    <span class="goHere">
+                                        <a href="{{ url_for('web.examing',id=exam.id,count=exam_count[exam.id]['count']) }}">进入考试</a>
+                                    </span>
+                                {% endif %}
+                            {# 处于次数无限的状态下 #}
+                            {% elif exam.count == -1%}
+                                {# 只需要判断是否为首次考试即可 #}
+                                {% if exam_count[exam.id]['end_time'] != -1 %}
+                                    <span class="goHere">
+                                        <span class="ended">当前考试已结束</span>
+                                        {% if exam.is_show_result == 1 %}
+                                            <a href="{{ url_for('web.show_exam',id=exam.id) }}">查看考试</a>
+                                        {% endif %}
+                                        <a href="{{ url_for('web.examing',id=exam.id,count=exam_count[exam.id]['count']) }}">进入考试</a>
+                                    </span>
+                                {% elif exam_count[exam.id]['end_time'] == -1 %}
+                                    <span class="goHere">
+                                        <a href="{{ url_for('web.examing',id=exam.id,count=exam_count[exam.id]['count']) }}">进入考试</a>
+                                    </span>
+                                {% endif %}
+                            {% endif %}
+                        {# 当前时间 <= 该考试最后一场的结束时间,说明考试处于进行状态 #}
+                        {% elif nowtime <= exam_count[exam.id]['end_time'] %}
+                            {# 判断提前交卷情况 如果没有提前交卷 #}
+                            {% if exam_count[exam.id]['now_time'] < exam_count[exam.id]['end_time'] %}
+                            <span class="goHere">
+                                <span>
+                                    考试进行中,剩余{{  (exam_count[exam.id]['end_time']-nowtime)/60}}分钟
+                                </span>|
+                                <span>
+                                    <a href="{{ url_for('web.exam_continue',id=exam.id,count=exam_count[exam.id]['count'] - 1) }}">进入考试</a>
+                                </span>
+                            </span>
+                            {% else %}
+                                {% if exam_count[exam.id]['count'] >= exam.count %}
+                                    <span class="goHere">
+                                        <span class="ended">考试已结束</span>
+                                        {% if exam.is_show_result == 1 %}
+                                            <span><a href="{{ url_for('web.show_exam',id=exam.id) }}">查看考试</a></span>
+                                        {% endif %}
+                                    </span>
+                                {% else %}
+                                    <span class="goHere">
+                                        <span class="ended">当前考试已结束</span>
+                                        {% if exam.is_show_result == 1 %}
+                                            <a href="{{ url_for('web.show_exam',id=exam.id) }}">查看考试</a>
+                                        {% endif %}
+                                        <a href="{{ url_for('web.examing',id=exam.id,count=exam_count[exam.id]['count']) }}">进入考试</a>
+                                    </span>
+                                {% endif %}
+                            {% endif %}
+                        {% endif %}
+                    {% endif %}
+                </h4>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <p class="col-md-12">
+                        <span class="col-md-5">
+                            <i class="glyphicon glyphicon-upload" style="color: rgb(255, 140, 60);"></i>考试发布时间：{{ exam.start_time }}
+                        </span>
+                        <span class="col-md-6">
+                            <i class="glyphicon glyphicon-ban-circle" style="color: rgb(255, 140, 60);"></i>考试截止时间：{{ exam.end_time }}
+                        </span>
+                    </p>
+                    <p class="col-md-12">
+                        <span class="col-md-5">
+                            <i class="glyphicon glyphicon-time" style="color: rgb(255, 140, 60);"></i>答题限时：{{ exam.during_time }}分钟
+                        </span>
+                        <span class="col-md-6">
+                            <i class="glyphicon glyphicon-time" style="color: rgb(255, 140, 60);"></i>考试次数：
+                                {% if exam.count == -1 %}
+                                    不限次数
+                                {% else %}
+                                    {% if current_user.user_level == 1 %}
+                                        {{ exam_count[exam.id]['count'] }}/{{ exam.count }}
+                                    {% else %}
+                                        {{ exam.count }}
+                                    {% endif %}
+                                {% endif %}
+                        </span>
+                    </p>
+                    <p>
+                        考试要求：<br>
+                        {{ exam.describe }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% if exam_list|length == 0 %}
+        <h3>您当前还没有正在进行的考试</h3>
+    {% endif %}
+
+    {% if pagination %}
+        {{ macros.pagination_widget(pagination, '.exam_list') }}
+    {% endif %}
+
+{% endblock %}

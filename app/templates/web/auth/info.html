@@ -1,0 +1,53 @@
+{% extends "web/base.html" %}
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='content/web/info.css') }}">
+{% endblock %}
+
+{% block title %}个人信息{% endblock %}
+{% block mainContent %}
+    <div class="col-md-offset-2 col-md-8 card">
+        <div class="card-title">
+            个人信息
+        </div>
+        <div class="box-info col-md-12">
+            <label class="pull-left col-md-3">Username</label>
+            <div class="pull-left col-md-8">{{ user_info.user_name }}</div>
+        </div>
+        <div class=" box-info col-md-12">
+            <label class="pull-left col-md-3">Nickname</label>
+            <div class="pull-left col-md-8">{{ user_info.nick_name }}</div>
+        </div>
+        <div class=" box-info col-md-12">
+            <label class="pull-left col-md-3">School&College</label>
+            <div class="pull-left col-md-8">{{ user_info.college_name }}</div>
+        </div>
+        <div class=" box-info col-md-12">
+            <label class="pull-left col-md-3">Major</label>
+            <div class="pull-left col-md-8">{{ user_info.major_name }}</div>
+        </div>
+        <div class=" box-info col-md-12">
+            <label class="pull-left col-md-3">Grade</label>
+            <div class="pull-left col-md-8">{{ user_info.grade }}</div>
+        </div>
+        <div class=" box-info col-md-12">
+            <label class="pull-left col-md-3">Class</label>
+            <div class="pull-left col-md-8">{{ user_info.classnum }}</div>
+        </div>
+        <div class=" box-info col-md-12">
+            <label class="pull-left col-md-3">邮箱</label>
+            <div class="pull-left col-md-8">{{ user_info.email }}</div>
+        </div>
+        <div class="operate">
+            <div>
+                <a href="{{ url_for('web.getback') }}">
+                    <button class="btn btn-danger">ReplacePassword</button>
+                </a>
+            </div>
+            <div>
+                <a href="{{ url_for('web.update_info') }}">
+                    <button class="btn btn-info">UpdateInfo</button>
+                </a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

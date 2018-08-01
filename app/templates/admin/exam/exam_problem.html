@@ -1,0 +1,315 @@
+{% extends "admin/base.html" %}
+
+{% block main %}
+    <div>
+        <div class="pull-left pagination"><span style="font-size: 28px">考试题库列表</span></div>
+        <div class="pull-right pagination">
+            <a href="{{ url_for("admin.exam_update",id=id) }}" class="btn btn-primary">返回上层</a>
+            <a href="{{ url_for("admin.exam_add_problem",id=id,page=1) }}" class="btn btn-primary">添加题库</a>
+        </div>
+    </div>
+
+    <div class="col-md-12">
+        <div class="row">
+        <!-- Nav tabs -->
+            <ul class="nav nav-tabs" role="tablist">
+                <li role="presentation" class="active">
+                    <a href="#choice" aria-controls="home" role="tab" data-toggle="tab">
+                        <span style="font-size: 16px">选择题&nbsp</span><span class="badge">
+                        {{ problem_num_dict['choice']['num'] }}/{{ problem_list_dict['choice']|length}}</span>
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a href="#blank" aria-controls="profile" role="tab" data-toggle="tab">
+                        <span style="font-size: 16px">填空题&nbsp</span><span class="badge">
+                        {{ problem_num_dict['blank']['num'] }}/{{ problem_list_dict['blank']|length}}</span>
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a href="#answer" aria-controls="messages" role="tab" data-toggle="tab">
+                        <span style="font-size: 16px">简答题&nbsp</span><span class="badge">
+                        {{ problem_num_dict['short_answer']['num'] }}/{{ problem_list_dict['short_answer']|length}}</span>
+                    </a>
+                </li>
+                <li role="presentation">
+                    <a href="#examplepage" aria-controls="messages" role="tab" data-toggle="tab">
+                        <span style="font-size: 16px">样例试卷&nbsp</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    <br>
+    </div>
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">提示</h4>
+                </div>
+                <div class="modal-body">
+                    <h4>本场考试处于非随机出题状态,在完成创建考试前请务必点击右下方按钮“生成预览试卷”生成试卷,届时所有考生将使用生成的预览试卷</h4>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade in active" id="choice">
+            <table class="table table-bordered table-hover" style="table-layout: fixed">
+                <thead>
+                    <th width="10%">PID</th>
+                    <th width="20%">题面简述</th>
+                    <th width="12%">标签</th>
+                    <th width="12%">书</th>
+                    <th width="12%">章</th>
+                    <th width="12%">节</th>
+                    <th width="6%">难度</th>
+                    <th width="6%">状态</th>
+                    <th width="10%">操作</th>
+                </thead>
+                {% for problem in problem_list_dict['choice'] %}
+                    <tr>
+                        <td class="overWrite" data-toggle="tooltip" data-placement="bottom"
+                        title="{{ problem.pid }}">{{ problem.pid }}</td>
+                        <td class="overWrite"><a data-toggle="modal" data-target="#{{ problem.pid }}">{{ problem.desc_main }}</a></td>
+                        <td>{{ problem.tags }}</td>
+                        <td>{{ problem.belong_to_book }}</td>
+                        <td>{{ problem.belong_to_unit }}</td>
+                        <td>{{ problem.belong_to_section }}</td>
+                        <td>{{ problem.level }}</td>
+                        <td>{{ status[problem.status] }}</td>
+                        <td>
+                            <a href="{{ url_for('admin.del_exam_problem_single',id=id,problem_id=problem.pid) }}"
+                               class="btn btn-sm btn-danger">删除</a>
+                        </td>
+                    </tr>
+                    <div class="modal fade" id="{{ problem.pid }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">题目信息</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>主要描述</h5>
+                                    <p>
+                                        {{ problem.desc_main }}
+                                    </p>
+                                    <hr>
+                                    <h5>次要描述(选择题选项)</h5>
+                                    <p>
+                                        {{ problem.desc_other }}
+                                    </p>
+                                    <hr>
+                                    <h5>答案</h5>
+                                    <p>
+                                        {{ problem.answer }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="blank">
+            <table class="table table-bordered table-hover">
+                <thead><th>PID</th><th>题面简述</th><th>标签</th><th>书</th><th>章</th><th>节</th><th>难度</th><th>状态</th><th>操作</th></thead>
+                {% for problem in problem_list_dict['blank'] %}
+                    <tr>
+                        <td>{{ problem.pid }}</td>
+                        <td class="overWrite"><a data-toggle="modal" data-target="#{{ problem.pid }}">{{ problem.desc_main }}</a></td>
+                        <td>{{ problem.tags }}</td>
+                        <td>{{ problem.belong_to_book }}</td>
+                        <td>{{ problem.belong_to_unit }}</td>
+                        <td>{{ problem.belong_to_section }}</td>
+                        <td>{{ problem.level }}</td>
+                        <td>{{ status[problem.status] }}</td>
+                        <td>
+                            <a href="{{ url_for('admin.del_exam_problem_single',id=id,problem_id=problem.pid) }}"
+                               class="btn btn-sm btn-danger">删除</a>
+                        </td>
+                    </tr>
+                    <div class="modal fade" id="{{ problem.pid }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">题目信息</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>主要描述</h5>
+                                    <p>
+                                        {{ problem.desc_main }}
+                                    </p>
+                                    <hr>
+                                    <h5>次要描述(选择题选项)</h5>
+                                    <p>
+                                        {{ problem.desc_other }}
+                                    </p>
+                                    <hr>
+                                    <h5>答案</h5>
+                                    <p>
+                                        {{ problem.answer }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="answer">
+            <table class="table table-bordered table-hover">
+                <thead><th>PID</th><th>题面简述</th><th>标签</th><th>书</th><th>章</th><th>节</th><th>难度</th><th>状态</th><th>操作</th></thead>
+                {% for problem in problem_list_dict['short_answer'] %}
+                    <tr>
+                        <td>{{ problem.pid }}</td>
+                        <td class="overWrite"><a data-toggle="modal" data-target="#{{ problem.pid }}">{{ problem.desc_main }}</a></td>
+                        <td>{{ problem.tags }}</td>
+                        <td>{{ problem.belong_to_book }}</td>
+                        <td>{{ problem.belong_to_unit }}</td>
+                        <td>{{ problem.belong_to_section }}</td>
+                        <td>{{ problem.level }}</td>
+                        <td>{{ status[problem.status] }}</td>
+                        <td>
+                            <a href="{{ url_for('admin.del_exam_problem_single',id=id,problem_id=problem.pid) }}"
+                               class="btn btn-sm btn-danger">删除</a>
+                        </td>
+                    </tr>
+                    <div class="modal fade" id="{{ problem.pid }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">题目信息</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>主要描述</h5>
+                                    <p>
+                                        {{ problem.desc_main }}
+                                    </p>
+                                    <hr>
+                                    <h5>次要描述(选择题选项)</h5>
+                                    <p>
+                                        {{ problem.desc_other }}
+                                    </p>
+                                    <hr>
+                                    <h5>答案</h5>
+                                    <p>
+                                        {{ problem.answer }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="examplepage">
+            <table class="table table-bordered table-hover">
+                <thead><th>PID</th><th>题面简述</th><th>标签</th><th>书</th><th>章</th><th>节</th><th>难度</th><th>状态</th><th>操作</th></thead>
+                {% for problem in problem_list_example['choice'] %}
+                    <tr>
+                        <td>{{ problem.pid }}</td>
+                        <td class="overWrite"><a data-toggle="modal" data-target="#{{ problem.pid }}e">{{ problem.desc_main }}</a></td>
+                        <td>{{ problem.tags }}</td>
+                        <td>{{ problem.belong_to_book }}</td>
+                        <td>{{ problem.belong_to_unit }}</td>
+                        <td>{{ problem.belong_to_section }}</td>
+                        <td>{{ problem.level }}</td>
+                        <td>{{ status[problem.status] }}</td>
+                        <td>
+                            <a href="{{ url_for('admin.del_exam_problem_single',id=id,problem_id=problem.pid) }}"
+                               class="btn btn-sm btn-danger">删除</a>
+                        </td>
+                    </tr>
+                    <div class="modal fade" id="{{ problem.pid }}e" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">题目信息</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>主要描述</h5>
+                                    <p>
+                                        {{ problem.desc_main }}
+                                    </p>
+                                    <hr>
+                                    <h5>次要描述(选择题选项)</h5>
+                                    <p>
+                                        {{ problem.desc_other }}
+                                    </p>
+                                    <hr>
+                                    <h5>答案</h5>
+                                    <p>
+                                        {{ problem.answer }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+{% endblock %}
+
+{% block toolbar %}
+    <div class="ToolBarForm">
+        <h3>实际出题数量</h3>
+
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            <div class="form-group">
+            {{ form.choice_num.label(class="control-label") }}
+            {{ form.choice_num(class="form-control") }}
+            {{ form.choice_score(class="form-control") }}
+            </div>
+            <div class="form-group">
+            {{ form.blank_num.label(class="control-label") }}
+            {{ form.blank_num(class="form-control") }}
+            {{ form.blank_score(class="form-control") }}
+            </div>
+            <div class="form-group">
+            {{ form.short_answer_num.label(class="control-label") }}
+            {{ form.short_answer_num(class="form-control") }}
+            {{ form.short_answer_score(class="form-control") }}
+            </div>
+            <div class="form-group">
+            {{ form.is_random.label(class="control-label") }}
+            {{ form.is_random(class="form-control") }}
+            </div>
+            {{ form.submit(class="btn btn-default") }}
+        </form>
+        <hr>
+        <a href="{{ url_for('admin.make_example_page',id=id) }}" class="btn btn-lg btn-primary
+            {% if is_random == 1 %}disabled{% endif %}">生成预览试卷</a>
+        <hr>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script>
+        $(function(){
+            $('#modal').modal({
+            {% if is_random == 0 %}
+                show:true
+            {% else %}
+                show:false
+            {% endif %}
+            })
+        });
+    </script>
+{% endblock %}

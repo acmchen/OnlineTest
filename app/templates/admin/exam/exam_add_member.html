@@ -1,0 +1,70 @@
+{% extends "admin/base.html" %}
+{% import "admin/_macros.html" as macros %}
+
+{% block main %}
+    <div>
+        {% if pagination %}
+        {{ macros.pagination_widget(pagination, '.exam_add_member', values , id=id) }}
+        {% endif %}
+        <div class="pull-right pagination">
+            <a href="{{ url_for("admin.exam_member",id=id) }}" class="btn btn-primary">回到成员列表</a>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover" style="table-layout: fixed">
+        <thead>
+            <th width="5%">ID</th>
+            <th width="12%">用户名</th>
+            <th width="13%">昵称</th>
+            <th width="11%">注册时间</th>
+            <th width="12%">学院</th>
+            <th width="10%">专业</th>
+            <th width="6%">年级</th>
+            <th width="5%">班级</th>
+            <th width="8%">权限</th>
+            <th width="6%">是否启用</th>
+            <th width="14%">操作</th>
+        </thead>
+        {% for user in user_list %}
+        <tr class ="{% if user.status == 0 %}{% elif user.user_id in apply_num %}bg-success{% endif %}">
+            <td class="overWrite" data-toggle="tooltip" data-placement="bottom"
+            title="{{ user.user_id }}">
+                {{ user.user_id }}</td>
+            <td class="overWrite" data-toggle="tooltip" data-placement="bottom"
+            title="{{ user.user_name }}">
+                {{ user.user_name }}</td>
+            <td class="overWrite" data-toggle="tooltip" data-placement="bottom"
+            title="{{ user.nick_name }}">
+                {{ user.nick_name }}</td>
+            <td>{{ user.reg_time }}</td>
+            <td>{{ user.college_name }}</td>
+            <td>{{ user.major_name }}</td>
+            <td>{{ user.grade }}</td>
+            <td>{{ user.classnum }}</td>
+            <td>{{ level[user.level] }}</td>
+            <td>{{ status[user.status] }}</td>
+            <td>
+                {% if values == '' %}
+                <a href="{{ url_for('admin.add_exam_member_single',id=id,user_id=user.user_id,page=pagination.page) }}"
+                   class="btn btn-sm btn-primary {% if user.user_id in apply_num or user.status == 0%}disabled{% endif %}">添加</a>
+                {% else %}
+                <a href="{{ url_for('admin.add_exam_member_single',id=id,user_id=user.user_id,page=pagination.page,values=values) }}"
+                   class="btn btn-sm btn-primary {% if user.user_id in apply_num or user.status == 0%}disabled{% endif %}">添加</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div>
+        {% if pagination %}
+            {{ macros.pagination_widget(pagination, '.exam_add_member', values, id=id) }}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block toolbar %}
+    <div class="ToolBarForm">
+        <form action="" method="post">
+            {{ wtf.quick_form(form) }}
+        </form>
+    </div>
+{% endblock %}

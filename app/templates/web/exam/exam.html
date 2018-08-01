@@ -1,0 +1,58 @@
+{% extends "web/base.html" %}
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/web/exam.css') }}">
+{% endblock %}
+{% block title %}考试{% endblock %}
+<a name="top"></a>
+{% block mainContent %}
+    <div id="id" style="display:none;">{{ id }}</div>
+    <div class="testCon">
+        <h2 id="testTitle"></h2>
+        <div class="description">
+            <!--js填写-->
+        </div>
+        <div class="text_list">
+            <!--js填写-->
+        </div>
+
+        <div class="btnSubmit">
+            <input type="button" id="submit" class="btn btn-warning" value="提交试卷">
+        </div>
+    </div>
+    <div class="top">
+        <div>
+            <a href="#top">
+                <button class="topcon">
+                </button>
+            </a>
+        </div>
+    </div>
+    <div class="timeWarn">
+        <div>考试时间剩余</div>
+        <div id="timer">
+            00:00:00
+        </div>
+    </div>
+
+    <div class="progress_save_con">
+        <div class="choice_progress">
+
+        </div>
+        <div class="blank_progress">
+
+        </div>
+        <div class="short_ans_progress">
+
+        </div>
+    </div>
+
+    <div id="hint">
+        考试结束！停止作答！
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='scripts/exam.js') }}">
+    </script>
+
+{% endblock %}

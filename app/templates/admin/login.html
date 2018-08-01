@@ -1,0 +1,41 @@
+{% import "bootstrap/wtf.html" as wtf %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta  http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>OnlineTest{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/bootstrap.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <div class="container">
+	    <div class="row clearfix">
+            <div class="col-md-3 column"></div>
+            <div class="col-md-5 column">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-warning">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>{{ message }}</h4>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <br><br>
+                <h1>OnlineTest后台管理系统</h1>
+                <form action="" method="post" >
+                    {{ form.hidden_tag()}}
+                    {{ wtf.form_field(form.username) }}
+                    {{ wtf.form_field(form.password) }}
+                    {{ wtf.form_field(form.submit) }}
+                </form>
+            </div>
+            <div class="col-md-4 column"></div>
+	    </div>
+    </div>
+    <script src="{{ url_for('static', filename='scripts/jquery-1.10.2.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/jquery.validate.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/bootstrap.min.js') }}"></script>
+</body>
+</html>

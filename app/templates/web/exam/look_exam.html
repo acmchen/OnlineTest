@@ -1,0 +1,68 @@
+{% extends "web/base.html" %}
+{% block mycss %}
+    <link rel="stylesheet" href="/static/web/css/lookExam.css">
+{% endblock %}
+{% block examManage %}class="active"{% endblock %}
+{% block title %}查看考试{% endblock %}
+{% block login %}{% endblock %}
+{% block mainContent %}
+    <div class="table-responsive">
+        <table class="table table-bordered" style="table-layout: fixed">
+            <caption>考试详情</caption>
+            <thead>
+            <tr>
+                <th width="5%">序号</th>
+                <th width="15%">用户名</th>
+                <th width="15%">昵称</th>
+                <th>学院</th>
+                <th>专业</th>
+                <th width="5%">年级</th>
+                <th width="5%">班级</th>
+                <th width="6%">最终成绩</th>
+                <th width="14%">提交时间</th>
+                <th width="5%">成绩</th>
+                <th width="10%">操作</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item,num in condition %}
+                {% set row = item.my_answer|length %}
+            <tr>
+                <td rowspan="{{ row }}">{{ num }}</td>
+                <td rowspan="{{ row }}">{{ user_info[item.student_id].user_name }}</td>
+                <td rowspan="{{ row }}">{{ user_info[item.student_id].nick_name }}</td>
+                <td rowspan="{{ row }}">{{ user_info[item.student_id].college_name }}</td>
+                <td rowspan="{{ row }}">{{ user_info[item.student_id].major_name }}</td>
+                <td rowspan="{{ row }}">{{ user_info[item.student_id].grade }}</td>
+                <td rowspan="{{ row }}">{{ user_info[item.student_id].classnum }}</td>
+                <td rowspan="{{ row }}">{{ item.final_grade }}</td>
+                {% for i in item.my_answer[0:1] %}
+                    <td>{{ i.subtime }}</td>
+                    <td>{{ i.grade }}</td>
+                    <td>
+                        {% if current_user.user_level > 1 %}
+                        <a href="/markexam/">批阅考试</a>&nbsp;|
+                        {% endif %}&nbsp;
+                        <a href="{{ url_for('web.exam_detail',id=item.exam_id,count=i.index) }}">查看详情</a>
+                    </td>
+                {% endfor %}
+            </tr>
+
+            {% for i in item.my_answer[1:] %}
+                <tr>
+                    <td>{{ i.subtime }}</td>
+                    <td>{{ i.grade }}</td>
+                    <td>
+                        {% if current_user.user_level > 1 %}
+                        <a href="/markexam/">批阅考试</a>&nbsp;|
+                        {% endif %}&nbsp;
+                        <a href="{{ url_for('web.exam_detail',id=item.exam_id,count=i.index) }}">查看详情</a>
+                    </td>
+                </tr>
+            {% endfor %}
+
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "web/base.html" %}
+{% import "web/_macros.html" as macros %}
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='content/web/ownerexam.css') }}">
+{% endblock %}
+
+{% block title %}我的考试{% endblock %}
+{% block myExam %}class="active"{% endblock %}
+<a name="top"></a>
+{% block mainContent %}
+    {% if pagination %}
+        {{ macros.pagination_widget(pagination, '.my_exam') }}
+    {% endif %}
+    {% for exam in exam_list %}
+    <div class="panel-group" id="{{ exam.id }}">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h4 class="panel-title">
+                    <a data-toggle="collapse" data-parent="#accordion"
+                       href="#collapse1">
+                        {{ exam.name }}
+                    </a>
+                    <span class="goHere"><a href="{{ url_for('web.show_exam',id=exam.id) }}">查看考试</a></span>
+
+                </h4>
+            </div>
+            <div id="collapse1" class="panel-collapse collapse in">
+                <div class="panel-body">
+                    <p class="col-md-12">
+                        <span class="col-md-3">
+                            <i class="glyphicon glyphicon-upload" style="color: rgb(255, 140, 60);"></i>考试发布时间：{{ exam.start_time }}
+                        </span>
+                        <span class="col-md-3">
+                            <i class="glyphicon glyphicon-ban-circle" style="color: rgb(255, 140, 60);"></i>考试截止时间：{{ exam.end_time }}
+                        </span>
+                        <span class="col-md-3">
+                            <i class="glyphicon glyphicon-time" style="color: rgb(255, 140, 60);"></i>答题限时：{{ exam.during_time }}分钟
+                        </span>
+                        <span class="col-md-3">
+                            <i class="glyphicon glyphicon-time" style="color: rgb(255, 140, 60);"></i>考试次数：{{ exam_count[exam.id] }}/{{ exam.count }}
+                        </span>
+                    </p>
+                    <p>
+                        考试要求：<br>
+                        {{ exam.describe }}
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+
+    {% if exam_list|length == 0 %}
+        <h3>您当前还没有已结束的考试</h3>
+    {% endif %}
+
+    {% if pagination %}
+        {{ macros.pagination_widget(pagination, '.exam_list') }}
+    {% endif %}
+
+    <div class="topAdd">
+        <div>
+            <a href="#top">
+                <button class="topcon">
+                </button>
+            </a>
+        </div>
+    </div>
+
+{% endblock %}

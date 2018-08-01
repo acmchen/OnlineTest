@@ -1,0 +1,78 @@
+{% extends "admin/base.html" %}
+
+{% block main %}
+    <h1>书籍目录管理</h1>
+    <table class="table table-bordered">
+        <thead><th>章</th><th>章操作</th><th>节</th><th>节操作</th></thead>
+        {% for item in List %}
+            {% set row = item['section']|length %}
+            {% if item['section']|length == 0 %}
+                {% set row = 1 %}
+            {% endif %}
+            <tr>
+                <td rowspan="{{ row }}">{{ item['unit'].unit_name }}</td>
+                <td rowspan="{{ row }}">
+                    <form action="{{ url_for('admin.bookindex_update',id=book_id) }}" method="post" class="form-inline formInTable">
+                        <div class="form-group">
+                            <input name="unit_id" type="hidden" value="{{ item['unit'].unit_id }}"/>
+                            <input name="unit_name" type="text" class="form-control" />
+                        </div>
+                        <div class="form-group">
+                            <input name="update_unit" type="submit" class="btn btn-sm btn-primary" value="修改">
+                            <a href="{{ url_for("admin.index_delete",book_id=book_id,type='unit',id=item['unit'].unit_id) }}" class="btn btn-sm btn-danger">删除</a>
+                        </div>
+                    </form>
+                </td>
+                {% if item['section'] %}
+                <td>{{ item['section'][0].section_name }}</td>
+                <td>
+                    <form action="{{ url_for('admin.bookindex_update',id=book_id) }}" method="post" class="form-inline formInTable">
+                        <div class="form-group">
+                            <input name="section_id" type="hidden" value="{{ item['section'][0].section_id }}"/>
+                            <input name="section_name" type="text" class="form-control"/>
+                        </div>
+                        <div class="form-group">
+                            <input name="update_section" type="submit" class="btn btn-sm btn-primary" value="修改"/>
+                            <a href="{{ url_for("admin.index_delete",book_id=book_id,type='section',id=item['section'][0].section_id) }}" class="btn btn-sm btn-danger">删除</a>
+                        </div>
+                    </form>
+                </td>
+                {% else %}
+                <td></td><td></td>
+                {% endif %}
+
+            </tr>
+            {% for sec in item['section'][1:] %}
+                <tr>
+                    <td>{{ sec.section_name }}</td>
+                    <td>
+                        <form action="{{ url_for('admin.bookindex_update',id=book_id) }}" method="post" class="form-inline formInTable">
+                            <div class="form-group">
+                                <input name="section_id" type="hidden" value="{{ sec.section_id }}"/>
+                                <input name="section_name" type="text" class="form-control"/>
+                            </div>
+                            <div class="form-group">
+                                <input name="update_section" type="submit" class="btn btn-sm btn-primary" value="修改"/>
+                                <a href="{{ url_for("admin.index_delete",book_id=book_id,type='section',id=sec.section_id) }}" class="btn btn-sm btn-danger">删除</a>
+                            </div>
+                        </form>
+                    </td>
+                </tr>
+            {% endfor %}
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% block toolbar %}
+    <div class="ToolBarForm">
+        <h6>*章节号请务必用阿拉伯数字</h6>
+        <h4>添加章节</h4>
+        <form action="" method="post">
+            {{ wtf.quick_form(formUnit) }}
+        </form><br>
+        <h4>添加小节</h4>
+        <form action="" method="post">
+            {{ wtf.quick_form(formSection) }}
+        </form>
+    </div>
+{% endblock %}

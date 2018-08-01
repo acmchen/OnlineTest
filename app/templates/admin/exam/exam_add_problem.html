@@ -1,0 +1,93 @@
+{% extends "admin/base.html" %}
+{% import "admin/_macros.html" as macros %}
+
+{% block main %}
+    <div>
+        {% if pagination %}
+        {{ macros.pagination_widget(pagination, '.exam_add_problem', values, id=id) }}
+        {% endif %}
+        <div class="pull-right pagination">
+            <a href="{{ url_for("admin.exam_problem",id=id) }}" class="btn btn-primary">回到题库列表</a>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover" style="table-layout: fixed">
+        <thead>
+            <th width="17%" >PID</th>
+            <th width="25%">题目描述</th>
+            <th width="7%">类型</th>
+            <th width="10%">作者</th>
+            <th width="10%">所属科目</th>
+            <th width="7%">难度</th>
+            <th width="10%">是否启用</th>
+            <th width="14%">操作</th>
+        </thead>
+        {% for problem in problem_list %}
+        <tr class="{% if problem.status == 0 %}bg-danger{% elif problem.pid in problem_list_exam %}bg-success{% endif %}">
+            <td class="overWrite" data-toggle="tooltip" data-placement="bottom"
+            title="{{ problem.id }}">{{ problem.pid }}</td>
+            <td class="overWrite"><a data-toggle="modal" data-target="#{{ problem.pid }}">{{ problem.desc_main }}</a></td>
+            <td>{{ type[problem.type] }}</td>
+            <td class="overWrite" data-toggle="tooltip" data-placement="bottom"
+            title="{{ problem.author }}">{{ problem.author }}</td>
+            <td class="overWrite" data-toggle="tooltip" data-placement="bottom"
+            title="{{ problem.subject }}">{{ problem.subject }}</td>
+            <td>{{ problem.level }}</td>
+            <td>{{ status[problem.status] }}</td>
+            <td>
+                {% if values == '' %}
+                <a href="{{ url_for('admin.add_exam_problem_single',id=id,problem_id=problem.pid,page=pagination.page) }}"
+                   class="btn btn-sm btn-primary {% if problem.pid in problem_list_exam or problem.status == 0 %}disabled{% endif %}">添加</a>
+                {% else %}
+                <a href="{{ url_for('admin.add_exam_problem_single',id=id,problem_id=problem.pid,page=pagination.page,values=values) }}"
+                   class="btn btn-sm btn-primary {% if problem.pid in problem_list_exam or problem.status == 0 %}disabled{% endif %}">添加</a>
+                {% endif %}
+            </td>
+        </tr>
+            <div class="modal fade" id="{{ problem.pid }}" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <h4 class="modal-title" id="myModalLabel">题目信息</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <h5>主要描述</h5>
+                                    <p>
+                                        {{ problem.desc_main }}
+                                    </p>
+                                    <hr>
+                                    <h5>次要描述(选择题选项)</h5>
+                                    <p>
+                                        {{ problem.desc_other }}
+                                    </p>
+                                    <hr>
+                                    <h5>答案</h5>
+                                    <p>
+                                        {{ problem.answer }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+        {% endfor %}
+    </table>
+    <div>
+        {% if pagination %}
+        {{ macros.pagination_widget(pagination, '.exam_add_problem', values, id=id) }}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block toolbar %}
+    <div class="ToolBarForm">
+        <form action="" method="post">
+            {{ wtf.quick_form(form) }}
+        </form>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='scripts/extend_script.js') }}"></script>
+{% endblock %}

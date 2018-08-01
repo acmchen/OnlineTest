@@ -1,0 +1,61 @@
+{% extends "admin/base.html" %}
+{% import "admin/_macros.html" as macros %}
+
+{% block main %}
+    <div>
+        {% if pagination %}
+        {{ macros.pagination_widget(pagination, '.problem_manage', values) }}
+        {% endif %}
+        <div class="pull-right pagination">
+        <a href="{{ url_for("admin.problem_add") }}" class="btn btn-primary">添加题目</a>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover" style="table-layout: fixed">
+        <thead>
+            <th width="17%" >PID</th>
+            <th width="25%">题目描述</th>
+            <th width="7%">类型</th>
+            <th width="10%">作者</th>
+            <th width="10%">所属科目</th>
+            <th width="7%">难度</th>
+            <th width="10%">是否启用</th>
+            <th width="14%">操作</th>
+        </thead>
+        {% for problem in problem_list %}
+        <tr>
+            <td class="overWrite" data-toggle="tooltip" data-placement="bottom"
+            title="{{ problem.id }}">{{ problem.pid }}</td>
+            <td class="overWrite" data-toggle="tooltip" data-placement="bottom"
+            title="{{ problem.desc_main }}">{{ problem.desc_main }}</td>
+            <td>{{ type[problem.type] }}</td>
+            <td class="overWrite" data-toggle="tooltip" data-placement="bottom"
+            title="{{ problem.author }}">{{ problem.author }}</td>
+            <td class="overWrite" data-toggle="tooltip" data-placement="bottom"
+            title="{{ problem.subject }}">{{ problem.subject }}</td>
+            <td>{{ problem.level }}</td>
+            <td>{{ status[problem.status] }}</td>
+            <td>
+                <a href="{{ url_for('admin.problem_update',id=problem.pid) }}" class="btn btn-sm btn-primary">修改</a>
+                <a href="{{ url_for('admin.problem_delete',id=problem.pid) }}" class="btn btn-sm btn-danger">删除</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div>
+        {% if pagination %}
+        {{ macros.pagination_widget(pagination, '.problem_manage', values) }}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block toolbar %}
+    <div class="ToolBarForm">
+        <form action="" method="post">
+            {{ wtf.quick_form(form) }}
+        </form>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='scripts/extend_script.js') }}"></script>
+{% endblock %}

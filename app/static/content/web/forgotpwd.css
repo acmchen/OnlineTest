@@ -1,0 +1,18 @@
+body {
+    background-image: url("/static/images/bgi.png");
+}
+
+.e-title,.username {
+    font-size: 18px;
+    font-weight: 600;
+    padding-left: 20px;
+    text-shadow: 5px 5px 100px #fff;
+}
+
+form {
+    margin-top: 66px;
+}
+
+center button {
+    margin-left: 28px;
+}

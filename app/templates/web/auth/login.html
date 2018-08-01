@@ -1,0 +1,25 @@
+{% extends "web/base.html" %}
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='content/web/login.css') }}">
+{% endblock %}
+{% block title %}登录{% endblock %}
+{% block login %}class="active"{% endblock %}
+{% block mainContent %}
+    <div class="page-container">
+        <h1>Login</h1>
+        <form action="" method="post">
+            {{ form.hidden_tag()}}
+            {{ form.username(placeholder="Username") }}
+            {% for error in form.username.errors %}
+                <br><span style="color: red;">{{error}}</span>
+            {% endfor %}
+            {{ form.password(placeholder="Password") }}
+            {% for error in form.password.errors %}
+                <br><span style="color: red;">{{error}}</span>
+            {% endfor %}
+            <span class="forgetpwd"><a href="{{ url_for('web.getback') }}">Forgot password?</a></span>
+            {{ wtf.form_field(form.submit) }}
+            <p class="account">New to OnlineTest?<a href="{{ url_for('web.register') }}">Create an account. </a></p>
+        </form>
+    </div>
+{% endblock %}

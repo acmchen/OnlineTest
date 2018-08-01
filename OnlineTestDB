@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- SQL XML created by WWW SQL Designer, https://github.com/ondras/wwwsqldesigner/ -->
+<!-- Active URL: http://ondras.zarovi.cz/sql/demo/?keyword=default -->
+<sql>
+<datatypes db="mysql">
+		<group color="rgb(238,238,170)" label="Numeric">
+			<type label="Integer" quote="" sql="INTEGER" length="0"/>
+			<type label="TINYINT" quote="" sql="TINYINT" length="0"/>
+			<type label="SMALLINT" quote="" sql="SMALLINT" length="0"/>
+			<type label="MEDIUMINT" quote="" sql="MEDIUMINT" length="0"/>
+			<type label="INT" quote="" sql="INT" length="0"/>
+			<type label="BIGINT" quote="" sql="BIGINT" length="0"/>
+			<type label="Decimal" quote="" sql="DECIMAL" length="1" re="DEC"/>
+			<type label="Single precision" quote="" sql="FLOAT" length="0"/>
+			<type label="Double precision" quote="" sql="DOUBLE" length="0" re="DOUBLE"/>
+		</group>
+
+		<group color="rgb(255,200,200)" label="Character">
+			<type label="Char" quote="'" sql="CHAR" length="1"/>
+			<type label="Varchar" quote="'" sql="VARCHAR" length="1"/>
+			<type label="Text" quote="'" sql="MEDIUMTEXT" length="0" re="TEXT"/>
+			<type label="Binary" quote="'" sql="BINARY" length="1"/>
+			<type label="Varbinary" quote="'" sql="VARBINARY" length="1"/>
+			<type label="BLOB" quote="'" sql="BLOB" length="0" re="BLOB"/>
+		</group>
+
+		<group color="rgb(200,255,200)" label="Date &amp; Time">
+			<type label="Date" quote="'" sql="DATE" length="0"/>
+			<type label="Time" quote="'" sql="TIME" length="0"/>
+			<type label="Datetime" quote="'" sql="DATETIME" length="0"/>
+			<type label="Year" quote="" sql="YEAR" length="0"/>
+			<type label="Timestamp" quote="'" sql="TIMESTAMP" length="0"/>
+		</group>
+
+		<group color="rgb(200,200,255)" label="Miscellaneous">
+			<type label="ENUM" quote="" sql="ENUM" length="1"/>
+			<type label="SET" quote="" sql="SET" length="1"/>
+			<type label="Bit" quote="" sql="bit" length="0"/>
+		</group>
+	</datatypes><table x="198" y="46" name="Unitinfo">
+<row name="unit_id" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="unit_name" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="belong_to_book" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default><relation table="Bookinfo" row="book_id" />
+</row>
+<key type="PRIMARY" name="">
+<part>unit_id</part>
+</key>
+</table>
+<table x="33" y="46" name="Bookinfo">
+<row name="book_id" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="book_name" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="version" null="1" autoincrement="0">
+<datatype>VARCHAR(32)</datatype>
+<default>NULL</default></row>
+<row name="subject" null="1" autoincrement="0">
+<datatype>VARCHAR(32)</datatype>
+<default>NULL</default></row>
+<row name="author" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="publisher" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="publish_datetime" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>book_id</part>
+</key>
+</table>
+<table x="360" y="49" name="Sactioninfo">
+<row name="section_id" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="name" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="belong_to_unit" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default><relation table="Unitinfo" row="unit_id" />
+</row>
+<key type="PRIMARY" name="">
+<part>section_id</part>
+</key>
+</table>
+<table x="93" y="329" name="UserInfo">
+<row name="user_id" null="1" autoincrement="1">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="user_name" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="password" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="email" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="nick_name" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="level" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="reg_time" null="1" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>NULL</default></row>
+<row name="major_name" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="college_name" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="grade" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="classnum" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="status" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>user_id</part>
+</key>
+</table>
+<table x="314" y="247" name="ProblemInfo">
+<row name="pid" null="1" autoincrement="1">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="type" null="1" autoincrement="0">
+<datatype>VARCHAR(32)</datatype>
+<default>NULL</default></row>
+<row name="desc_main" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="desc_other" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="answer" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="author" null="1" autoincrement="0">
+<datatype>VARCHAR(32)</datatype>
+<default>NULL</default></row>
+<row name="tips" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="tags" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="date" null="1" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>NULL</default></row>
+<row name="level" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="belong_to_book" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="belong_to_unit" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="belong_to_section" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="subject" null="1" autoincrement="0">
+<datatype>VARCHAR(64)</datatype>
+<default>NULL</default></row>
+<row name="status" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>pid</part>
+</key>
+<comment>mongo</comment>
+</table>
+<table x="777" y="40" name="ExamConditionInfo">
+<row name="_id" null="1" autoincrement="1">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="exam_id" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="student_id" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="log_info" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="my_answer" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="final_grade" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="status" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>_id</part>
+</key>
+<comment>MongoDB</comment>
+</table>
+<table x="568" y="30" name="Examinfo">
+<row name="_id" null="1" autoincrement="1">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="name" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="creater" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="describe" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="during_time" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="start_time" null="1" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>NULL</default></row>
+<row name="end_time" null="1" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>NULL</default></row>
+<row name="reg_starttime" null="1" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>NULL</default></row>
+<row name="reg_endtime" null="1" autoincrement="0">
+<datatype>DATETIME</datatype>
+<default>NULL</default></row>
+<row name="apply_num" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="exam_num" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="problem_list" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="problem_list_example" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="count" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="choice" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="blank" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="answer" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="is_hidden" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="is_random" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<row name="is_register" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+<part>_id</part>
+</key>
+<comment>MongoDB</comment>
+</table>
+<table x="809" y="277" name="LogInfo">
+<row name="login_time" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default></row>
+<row name="logout_time" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default></row>
+<row name="ip" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+</key>
+<comment>EmbeddedDocument for log_info in ExamConditonInfo</comment>
+</table>
+<table x="798" y="423" name="MyAnswer">
+<row name="page" null="1" autoincrement="0">
+<datatype>VARCHAR</datatype>
+<default>NULL</default></row>
+<row name="answer" null="1" autoincrement="0">
+<datatype>MEDIUMTEXT</datatype>
+<default>NULL</default></row>
+<row name="subtime" null="1" autoincrement="0">
+<datatype>DATE</datatype>
+<default>NULL</default></row>
+<row name="grade" null="1" autoincrement="0">
+<datatype>INTEGER</datatype>
+<default>NULL</default></row>
+<key type="PRIMARY" name="">
+</key>
+<comment>EmbeddedDocument for my_answer in ExamConditonInfo</comment>
+</table>
+</sql>

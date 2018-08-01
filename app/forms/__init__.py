@@ -1,0 +1,11 @@
+from . import auth_forms
+
+from auth_forms import LoginForm,RegisterForm,ReplacePasswdForm,GetbackPwdForm,AuthUpdateForm
+
+from user_forms import UserSearchForm,UserAddForm,UserinfoUpdateForm
+
+from book_forms import BookSearchForm,SectionAddForm,UnitAddForm,BookUpdateForm
+
+from problem_forms import ProblemAddForms,ProblemSearchForms,ProblemUpdateForms
+
+from exam_forms import ExamSearchForm,ExamUpdateForm,ExamProblemSearchForm,ExamStudentSearchForm,ExamProblemNumForm

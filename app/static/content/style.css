@@ -1,0 +1,26 @@
+.floatToolBar{
+    width: 14%;
+    padding-top:20px;
+    padding-left:20px;
+    position:fixed;
+    cursor:pointer;
+}
+.ToolBarForm{
+    padding-top:20px;
+}
+.pad{
+    padding-top:50px;
+    padding-left:20px;
+}
+.nav-contain{
+    margin: 0 150px;
+}
+.formInTable{
+    width:300px;
+}
+.overWrite{
+    overflow:hidden;
+    white-space:nowrap;
+    text-overflow:ellipsis;
+}
+

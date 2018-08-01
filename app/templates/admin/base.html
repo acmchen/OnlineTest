@@ -1,0 +1,78 @@
+
+{% import "bootstrap/wtf.html" as wtf %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta  http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>OnlineTest{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='content/style.css') }}">
+    {% block head %}{% endblock %}
+</head>
+<body>
+    <nav class="navbar navbar-default navbar-inverse navbar-fixed-top">
+        <div class="nav-contain container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+              <a class="navbar-brand" href="{{ url_for('admin.index') }}">OnlineTest后台管理系统</a>
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="{% if active=='user' %} active {% endif %} "><a href="{{ url_for('admin.user_manage') }}">用户管理</a></li>
+                    <li class="dropdown {% if active=='problem' %} active {% endif %}">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">题库管理<span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="{{ url_for('admin.problem_manage') }}">题库管理</a></li>
+                            <li><a href="{{ url_for('admin.book_manage') }}">书籍管理</a></li>
+                        </ul>
+                    </li>
+                    <li class="{% if active=='exam' %} active {% endif %}"><a href="{{ url_for('admin.exam_manage') }}">考试管理</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="{{ url_for('admin.logout') }}">Logout</a></li>
+                 </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div class="pad">
+        <div class="col-sm-1"></div>
+        <div class="col-md-8 column">
+            <div class="row">
+                {% with messages = get_flashed_messages() %}
+                    {% if messages %}
+                        {% for message in messages %}
+                            <div class="alert alert-warning">
+                                <button type="button" class="close" data-dismiss="alert">&times;</button>
+                                <h4>{{ message }}</h4>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                {% block main %}{% endblock %}
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="container">
+                <div class="floatToolBar">
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-primary" onclick="window.history.go(-1)">后退</button>
+                        <button type="button" class="btn btn-primary" onclick="window.history.go(1)">前进</button>
+                        <button type="button" class="btn btn-primary" onclick="window.location.reload()">刷新</button>
+                    </div>
+                    {% block toolbar %}{% endblock %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="{{ url_for('static', filename='scripts/jquery-1.10.2.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/jquery.validate.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/bootstrap.min.js') }}"></script>
+    {% block script %}{% endblock %}
+    <script src="{{ url_for('static', filename='scripts/base64.js') }}"></script>
+    <script src="{{ url_for('static', filename='scripts/tool.js') }}"></script>
+
+</body>
+</html>

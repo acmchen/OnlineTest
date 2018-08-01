@@ -1,0 +1,130 @@
+{% extends "admin/base.html" %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css') }}">
+{% endblock %}
+
+{% block main %}
+    <div class="col-md-6">
+        <h1>考试信息管理</h1>
+        <form action="" method="post">
+             {{ form.hidden_tag() }}
+            <div class="form-group">
+                {{ form.name.label(class="control-label") }}
+                {{ form.name(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.creater.label(class="control-label") }}
+                {{ form.creater(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.count.label(class="control-label") }}
+                {{ form.count(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.describe.label(class="control-label") }}
+                {{ form.describe(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.during_time.label(class="control-label") }}
+                {{ form.during_time(class="form-control") }}
+            </div>
+            <div class="form-group">
+                {{ form.start_time.label(class="control-label") }}
+                <div class="input-group date" id="datetimepicker1">
+                    {{ form.start_time(class="form-control") }}
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.end_time.label(class="control-label") }}
+                <div class="input-group date" id="datetimepicker2">
+                    {{ form.end_time(class="form-control") }}
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.reg_start_time.label(class="control-label") }}
+                <div class="input-group date" id="datetimepicker3">
+                    {{ form.reg_start_time(class="form-control") }}
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.reg_end_time.label(class="control-label") }}
+                <div class="input-group date" id="datetimepicker4">
+                    {{ form.reg_end_time(class="form-control") }}
+                    <span class="input-group-addon">
+                        <span class="glyphicon glyphicon-calendar"></span>
+                    </span>
+                </div>
+            </div>
+            <div class="form-group">
+                {{ form.is_register.label(class="control-label") }}
+                {{ form.is_register(class="form-control")}}
+            </div>
+            <div class="form-group">
+                {{ form.is_hidden.label(class="control-label") }}
+                {{ form.is_hidden(class="form-control")}}
+            </div>
+            <div class="form-group">
+                {{ form.is_show_result.label(class="control-label") }}
+                {{ form.is_show_result(class="form-control")}}
+            </div>
+           {{ form.submit(class="btn btn-default") }}
+        </form>
+    </div>
+{% endblock %}
+
+{% block toolbar %}
+    <div class="ToolBarForm">
+        <hr>
+        <a href="{{ url_for('admin.exam_member',id=id) }}" class="btn btn-lg btn-primary">参考成员管理</a>
+        <hr>
+        <a href="{{ url_for('admin.exam_problem',id=id) }}" class="btn btn-lg btn-primary">考试题库管理</a>
+        <hr>
+    </div>
+{% endblock %}
+
+{% block script %}
+    <script src="{{ url_for('static', filename='bootstrap-datetimepicker/js/moment.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script type="text/javascript">
+        $(function() {
+            $('#datetimepicker1').datetimepicker({
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+        $(function() {
+            $('#datetimepicker2').datetimepicker({
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+        $(function() {
+            $('#datetimepicker3').datetimepicker({
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+        $(function() {
+            $('#datetimepicker4').datetimepicker({
+                format:'YYYY-MM-DD HH:mm:ss'
+            });
+        });
+        $('#is_register').change(function () {
+            if($('option:selected').val()==1){
+                $('#reg_start_time').attr('required',true);
+                $('#reg_end_time').attr('required',true);
+            }
+            else{
+                $('#reg_start_time').attr('required',false);
+                $('#reg_end_time').attr('required',false);
+            }
+        });
+    </script>
+{% endblock %}

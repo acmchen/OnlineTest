@@ -1,0 +1,42 @@
+body {
+    background-color: #E3F2FD;
+}
+
+.testCon {
+    background-color: #ffffff;
+}
+
+.testCon h2 {
+    text-align: center;
+}
+
+.description {
+    font-size: 18px;
+    border-bottom: 1px dashed;
+}
+
+.description span {
+    float: right;
+    text-align: center;
+}
+
+.description span i {
+    color: red;
+}
+
+ul li {
+    list-style: none;
+    margin: 4px 0;
+}
+
+.ques_ans_con {
+    font-size: 16px;
+}
+
+.question {
+    margin-top: 8px;
+    border-bottom: 1px solid;
+    padding-left: 10px;
+}
+
+

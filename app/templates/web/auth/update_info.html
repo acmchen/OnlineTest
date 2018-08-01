@@ -1,0 +1,14 @@
+{% extends "web/base.html" %}
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='content/web/updateInfo.css') }}">
+{% endblock %}
+
+{% block title %}修改个人信息{% endblock %}
+{% block mainContent %}
+    <form class="form-horizontal" action="###" method="post">
+        <div class="col-md-offset-3 col-md-6">
+            {{ wtf.quick_form(form) }}
+        </div>
+    </form>
+
+{% endblock %}

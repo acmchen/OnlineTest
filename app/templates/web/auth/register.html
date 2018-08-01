@@ -1,0 +1,61 @@
+{% extends "web/base.html" %}
+{% block style %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='content/web/register.css') }}">
+{% endblock %}
+{% block title %}注册{% endblock %}
+{% block register %}class="active"{% endblock %}
+{% block mainContent %}
+    <div class="page-container">
+        <form action="" method="post">
+            {{ form.hidden_tag() }}
+            {{ form.username.label() }}
+            {{ form.username(placeholder="仅由数字,字母,下划线组成,长度6-15") }}
+            {% for error in form.username.errors %}
+                <span style="color: red;">{{error}}</span>
+            {% endfor %}<br>
+            {{ form.nickname.label() }}
+            {{ form.nickname(placeholder="长度3-24") }}
+            {% for error in form.nickname.errors %}
+                <span style="color: red;">{{error}}</span>
+            {% endfor %}<br>
+            {{ form.password.label() }}
+            {{ form.password() }}
+            {% for error in form.password.errors %}
+                <span style="color: red;">{{error}}</span>
+            {% endfor %}
+            {{ form.password_again.label() }}
+            {{ form.password_again() }}
+            {% for error in form.password_again.errors %}
+                <span style="color: red;">{{error}}</span>
+            {% endfor %}<br>
+            {{ form.email.label() }}
+            {{ form.email(placeholder="例如:onlinetest@sdut.com") }}
+            {{ form.email.description }}<br>
+            {% for error in form.email.errors %}
+                <span style="color: red;">{{error}}</span>
+            {% endfor %}<br>
+            {{ form.college.label() }}
+            {{ form.college(placeholder="例如:计算机科学与技术学院") }}
+            {% for error in form.college.errors %}
+                <span style="color: red;">{{error}}</span>
+            {% endfor %}<br>
+            {{ form.major.label() }}
+            {{ form.major(placeholder="例如:软件工程") }}
+            {% for error in form.major.errors %}
+                <span style="color: red;">{{error}}</span>
+            {% endfor %}<br>
+            {{ form.grade.label() }}
+            {{ form.grade() }}
+            {% for error in form.grade.errors %}
+                <span style="color: red;">{{error}}</span>
+            {% endfor %}<br>
+            {{ form.classnum.label() }}
+            {{ form.classnum() }}
+            {% for error in form.classnum.errors %}
+                <span style="color: red;">{{error}}</span>
+            {% endfor %}<br>
+            <p>&nbsp;</p>
+            {{ wtf.form_field(form.submit) }}
+        </form>
+    </div>
+{% endblock %}

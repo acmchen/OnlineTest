@@ -1,0 +1,22 @@
+body {
+    background-image: url("/static/images/bgi.png");
+}
+
+label {
+    text-align: right;
+    font-size: 18px;
+    font-weight: 600;
+    text-shadow: 5px 5px 100px #fff;
+}
+
+form {
+    margin-top: 66px;
+}
+.forgot-pwd{
+    float: right;
+    padding-top: 4px;
+    margin-right: 10px;
+}
+center button{
+    margin-left: 28px;
+}

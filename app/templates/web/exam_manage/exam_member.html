@@ -1,0 +1,47 @@
+{% extends "web/base_manage.html" %}
+
+{% block main %}
+    <div>
+        <div class="pull-left pagination"><span style="font-size: 28px">参考成员列表</span>&nbsp&nbsp</div>
+        <div class="pull-right pagination">
+            <a href="{{ url_for("web.exam_update",id=id) }}" class="btn btn-primary">返回上层</a>
+            <a href="{{ url_for("web.exam_add_member",id=id,page=1) }}" class="btn btn-primary">添加考试成员</a>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <th>UserID</th>
+            <th>用户名</th>
+            <th>昵称</th>
+            <th>学院</th>
+            <th>专业</th>
+            <th>年级</th>
+            <th>班级</th>
+            <th>是否有效</th>
+            <th>操作</th>
+        </thead>
+        {% for member in member_list %}
+        <tr>
+            <td>{{ member.user_id }}</td>
+            <td>{{ member.user_name }}</td>
+            <td>{{ member.nick_name }}</td>
+            <td>{{ member.college_name }}</td>
+            <td>{{ member.major_name }}</td>
+            <td>{{ member.grade }}</td>
+            <td>{{ member.classnum }}</td>
+            <td>{{ status[member.status] }}</td>
+            <td>
+                <a href="{{ url_for('web.del_exam_member_single',id=id,user_id=member.user_id) }}" class="btn btn-sm btn-danger">删除</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
+
+{% block toolbar %}
+    <div class="ToolBarForm">
+        <form action="" method="post">
+        {{ wtf.quick_form(form) }}
+        </form>
+    </div>
+{% endblock %}

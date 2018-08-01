@@ -1,0 +1,57 @@
+{% extends "admin/base.html" %}
+{% import "admin/_macros.html" as macros %}
+
+{% block main %}
+    <div>
+        {% if pagination %}
+        {{ macros.pagination_widget(pagination, '.book_manage', values) }}
+        {% endif %}
+        <div class="pull-right pagination">
+        <a href="{{ url_for("admin.book_add") }}" class="btn btn-primary">添加书籍</a>
+        </div>
+    </div>
+    <table class="table table-bordered table-hover" style="table-layout: fixed">
+        <thead>
+            <th width="15%">BookID</th>
+            <th width="15%">科目</th>
+            <th width="20%">书名</th>
+            <th width="8%">版本</th>
+            <th width="10%">作者</th>
+            <th width="10%">出版社</th>
+            <th width="22%">操作</th>
+        </thead>
+        {% for book in book_list %}
+        <tr>
+            <td class="overWrite" data-toggle="tooltip" data-placement="bottom"
+            title="{{ book.book_id }}">{{ book.book_id }}</td>
+            <td class="overWrite" data-toggle="tooltip" data-placement="bottom"
+            title="{{ book.subject }}">{{ book.subject }}</td>
+            <td class="overWrite" data-toggle="tooltip" data-placement="bottom"
+            title="{{ book.book_name }}">{{ book.book_name }}</td>
+            <td>{{ book.version }}</td>
+            <td class="overWrite" data-toggle="tooltip" data-placement="bottom"
+            title="{{ book.author }}">{{ book.author }}</td>
+            <td class="overWrite" data-toggle="tooltip" data-placement="bottom"
+            title="{{ book.publisher }}">{{ book.publisher }}</td>
+            <td>
+                <a href="{{ url_for('admin.book_update',id=book.book_id) }}" class="btn btn-sm btn-primary">修改</a>
+                <a href="{{ url_for('admin.bookindex_update',id=book.book_id) }}" class="btn btn-sm btn-primary">目录管理</a>
+                <a href="{{ url_for('admin.book_delete',id=book.book_id) }}" class="btn btn-sm btn-danger">删除</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div>
+        {% if pagination %}
+        {{ macros.pagination_widget(pagination, '.book_manage', values) }}
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block toolbar %}
+    <div class="ToolBarForm">
+        <form action="" method="post">
+        {{ wtf.quick_form(form) }}
+        </form>
+    </div>
+{% endblock %}

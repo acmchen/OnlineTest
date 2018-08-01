@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block mycss %}
+    <link rel="stylesheet" href="/static/web/css/markexam.css">
+{% endblock %}
+{% block title %}批阅试题{% endblock %}
+{% block mainContent %}
+    <div class="testCon">
+        <h2>试题标题</h2>
+        <div class="description">
+            共40道题，没题2.5分，总分100分。考试时间30分钟。
+            <span>得分：<i>98</i>分</span>
+        </div>
+        <div class="ques_ans_con">
+            <div class="question">
+                1.一个C语言程序是由()组成的。
+                <div class="answers">
+                    <ul>
+                        <li><input type="radio" name="anwser1">A主程序</li>
+                        <li><input type="radio" name="anwser1">B子程序</li>
+                        <li><input type="radio" name="anwser1">C函数</li>
+                    </ul>
+                    <p><i class="glyphicon glyphicon-ok-sign" style="color: rgb(18, 255, 22);"></i>正确答案：C</p>
+                    <p><i class="glyphicon glyphicon-remove-sign" style="color: rgb(255, 0, 0);"></i>我的答案：A</p>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

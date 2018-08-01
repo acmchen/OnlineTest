@@ -1,0 +1,37 @@
+body {
+    background-color: #E3F2FD;
+}
+
+.goHere {
+    float: right;
+}
+
+.goHere a {
+    margin: 0 5px;
+}
+
+body {
+    background-color: #E3F2FD;
+}
+
+.goHere {
+    float: right;
+}
+
+.goHere a {
+    margin: 0 5px;
+}
+
+
+.topAdd {
+    position: fixed;
+    right: 20px;
+    bottom: 40%;
+}
+
+.topcon {
+    height: 40px;
+    width: 40px;
+    background-image: url("/static/images/backTop.jpg");
+    background-size: cover;
+}
